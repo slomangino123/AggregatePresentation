@@ -14,7 +14,7 @@ using AggregatePresentation.Processors;
 
 namespace AggregatePresentation.CommandHandlers
 {
-    public class DoSomethingBonusCommandHandler : AbstractCommandHandler<DoSomethingCommand>
+    public class DoSomethingBonusCommandHandler : ICommandHandler<DoSomethingCommand, Guid>
     {
         private readonly ICreateSomethingAggregateProcessor processor;
         private readonly ISession session;
@@ -26,11 +26,12 @@ namespace AggregatePresentation.CommandHandlers
             this.session = session;
         }
 
-        protected override async Task Handle(DoSomethingCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(DoSomethingCommand request, CancellationToken cancellationToken)
         {
             var aggregate = await processor.CreateSomething(request.FirstName, request.LastName, cancellationToken);
             await session.Add(aggregate);
             await session.Commit();
+            return aggregate.Id;
         }
     }
 }

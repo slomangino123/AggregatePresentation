@@ -13,5 +13,10 @@ namespace AggregatePresentation.Mapping
         {
             return new DoSomethingCommand(inputDTO.FirstName, inputDTO.LastName);
         }
+
+        public static ChangeFirstNameCommand ToChangeFirstNameCommand(this ChangeFirstNameInputDTO inputDTO)
+        {
+            return new ChangeFirstNameCommand(inputDTO.AggregateId, inputDTO.FirstName);
+        }
     }
 }

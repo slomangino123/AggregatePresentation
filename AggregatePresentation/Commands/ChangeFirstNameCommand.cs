@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace AggregatePresentation.Commands
 {
-    public class DoSomethingCommand : ICommandWithResult<Guid>
+    public class ChangeFirstNameCommand : ICommand
     {
-        public DoSomethingCommand(string firstName, string lastName)
+        public ChangeFirstNameCommand(Guid aggregateId, string firstName)
         {
+            AggregateId = aggregateId;
             FirstName = firstName;
-            LastName = lastName;
         }
 
+        public Guid AggregateId { get; private set; }
         public string FirstName { get; private set; }
-
-        public string LastName { get; private set; }
     }
 }

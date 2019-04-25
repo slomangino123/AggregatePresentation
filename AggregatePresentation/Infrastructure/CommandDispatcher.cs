@@ -20,5 +20,10 @@ namespace AggregatePresentation.Infrastructure
         {
             await mediator.Send(command);
         }
+
+        public async Task<TResult> Execute<TResult>(ICommandWithResult<TResult> command, CancellationToken cancellationToken)
+        {
+            return await mediator.Send(command);
+        }
     }
 }

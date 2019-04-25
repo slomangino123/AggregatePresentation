@@ -20,11 +20,19 @@ namespace AggregatePresentation.Controllers
         {
             this.commandDispatcher = commandDispatcher;
         }
-        // POST api/values
+
         [HttpPost("DoSomething")]
-        public async Task<ActionResult> DoSomething([FromBody] InputDTO inputDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<Guid>> DoSomething([FromBody] InputDTO inputDTO, CancellationToken cancellationToken)
         {
             var command = inputDTO.ToDoSomethingCommand();
+            var result = await commandDispatcher.Execute(command, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpPost("changefirstname")]
+        public async Task<ActionResult> ChangeFirstName([FromBody] ChangeFirstNameInputDTO inputDTO, CancellationToken cancellationToken)
+        {
+            var command = inputDTO.ToChangeFirstNameCommand();
             await commandDispatcher.Execute(command, cancellationToken);
             return Ok();
         }

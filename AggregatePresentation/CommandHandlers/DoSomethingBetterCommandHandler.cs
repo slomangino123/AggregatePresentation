@@ -13,7 +13,7 @@ using CQRSlite.Domain;
 
 namespace AggregatePresentation.CommandHandlers
 {
-    public class DoSomethingBetterCommandHandler : AbstractCommandHandler<DoSomethingCommand>
+    public class DoSomethingBetterCommandHandler : ICommandHandler<DoSomethingCommand, Guid>
     {
         private readonly IFullNameService fullNameService;
         private readonly IUniqueIdGenerator idGenerator;
@@ -28,7 +28,7 @@ namespace AggregatePresentation.CommandHandlers
             this.session = session;
         }
 
-        protected override async Task Handle(DoSomethingCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(DoSomethingCommand request, CancellationToken cancellationToken)
         {
             var newId = idGenerator.GenerateGuid();
             var fullName = await fullNameService.BuildFullName(request.FirstName, request.LastName);
@@ -39,6 +39,7 @@ namespace AggregatePresentation.CommandHandlers
                                                             fullName);
             await session.Add(aggregate);
             await session.Commit();
+            return aggregate.Id;
         }
     }
 }

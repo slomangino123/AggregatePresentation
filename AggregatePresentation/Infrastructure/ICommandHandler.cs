@@ -2,15 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AggregatePresentation.Infrastructure
 {
-    public interface ICommand : IRequest
-    {
-    }
-
-    public interface ICommandWithResult<TResult> : IRequest<TResult>
+    public interface ICommandHandler<TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
+        where TCommand : IRequest<TResponse>
     {
     }
 }
