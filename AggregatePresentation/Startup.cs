@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AggregatePresentation.CommandHandlers;
 using AggregatePresentation.Infrastructure;
+using AggregatePresentation.PipelineBehavior;
 using AggregatePresentation.Processors;
 using AggregatePresentation.Services.FullNameService;
 using AggregatePresentation.Services.IdGenerator;
@@ -39,6 +40,7 @@ namespace AggregatePresentation
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddScoped<ServiceFactory>(x => x.GetService);
             services.AddTransient(typeof(ICommandDispatcher), typeof(CommandDispatcher));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
             // CqrsLite
             services.AddTransient(typeof(ISession), typeof(Session));

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AggregatePresentation.Infrastructure
 {
-    public interface ICommand : IRequest
+    public interface ICommand : IRequest, ICommandWithResult<Unit>
     {
     }
 
